@@ -34,7 +34,7 @@ export const Perfil = () => {
 
   useEffect(() => {
     if (!token) {
-      console.warn(" No hay token disponible todavía. Esperando...");
+      console.log(" No hay token disponible todavía. Esperando...");
       return;
     }
 

@@ -90,7 +90,7 @@ export const Context = ({ children }) => {
 
    
     if (!Array.isArray(viajesOriginales) || viajesOriginales.length === 0) {
-        console.warn(" No hay datos en viajesOriginales, recargando desde API...");
+        console.log(" No hay datos en viajesOriginales, recargando desde API...");
         
         fetch("https://nautilus-prestiges.onrender.com/api/viajes")
             .then(response => response.json())

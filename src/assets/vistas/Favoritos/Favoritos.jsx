@@ -23,7 +23,7 @@ const Favoritos = () => {
   }
 
   if (!Array.isArray(favoritos)) {
-    console.warn(" `favoritos` no es un array, inicializándolo como vacío.");
+    console.log(" `favoritos` no es un array, inicializándolo como vacío.");
     return <p>Cargando favoritos...</p>;
   }
 

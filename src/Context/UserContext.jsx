@@ -113,7 +113,7 @@ export const UserProvider = ({ children }) => {
     try {
 
       if (!token) {
-        console.warn(" No hay token disponible, esperando autenticación...");
+        console.log(" No hay token disponible, esperando autenticación...");
         return;
       }
       const response = await fetch('https://nautilus-prestiges.onrender.com/api/perfil', {
@@ -263,7 +263,7 @@ export const UserProvider = ({ children }) => {
 
   try {
     if (!Array.isArray(user.favoritos)) {
-      console.warn(" `user.favoritos` no es un array. Inicializando...");
+      console.log(" `user.favoritos` no es un array. Inicializando...");
       setUser((prevUser) => ({ ...prevUser, favoritos: [] }));
     }
 
