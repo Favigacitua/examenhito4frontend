@@ -78,7 +78,7 @@ export const Perfil = () => {
       return;
     }
 
-    console.log("📌 Enviando reseña con:", {
+    console.log(" Enviando reseña con:", {
       id_viaje: Number(destino), 
       valoracion: Number(calificacion), 
       descripcion: comentario

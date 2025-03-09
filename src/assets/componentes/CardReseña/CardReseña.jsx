@@ -5,41 +5,44 @@ import './cardreseña.css'
 
 export const CardReseña = ({ viajeId }) => {
   console.log(`🛠️ CardReseña recibida con viajeId:`, viajeId);
-
- 
-  const { resenasPorViaje, fetchResenasPorViaje } = useContext(MyContext);
-
+  const { resenas, fetchResenasPorViaje } = useContext(MyContext);
   const [resenasViaje, setResenasViaje] = useState([]);
 
   useEffect(() => {
-    console.log(` Buscando reseñas para el viaje ID:`, viajeId);
+    console.log(` CardReseña recibida con viajeId:`, viajeId);
 
     if (!viajeId) { 
       console.log(" No se recibió un viajeId en CardReseña.");
       return;
     }
 
-    if (!resenasPorViaje[viajeId]) {
-      fetchResenasPorViaje(viajeId);  
-    }
-  }, [viajeId, resenasPorViaje, fetchResenasPorViaje]);
-
-  useEffect(() => {
-    if (!viajeId || !resenasPorViaje || typeof resenasPorViaje !== "object") {
-      console.log(" No se pueden cargar las reseñas porque `resenasPorViaje` o `viajeId` no están definidos.");
+    if (!resenas || typeof resenas !== "object") {
+      console.log(" resenas no está definido o no es un objeto, no se puede acceder.");
       return;
     }
 
-    if (resenasPorViaje[viajeId]) {
-      console.log(" Nuevas reseñas detectadas:", resenasPorViaje[viajeId]);
-      setResenasViaje(resenasPorViaje[viajeId]);
+    if (!resenas[viajeId]) {
+      fetchResenasPorViaje(viajeId);
     }
-  }, [resenasPorViaje, viajeId]);
 
-  if (!resenasViaje || resenasViaje.length === 0) {
-    return <p>No hay reseñas para este viaje.</p>;
+}, [viajeId, fetchResenasPorViaje]);
+
+
+useEffect(() => {
+  if (!viajeId || !resenas || typeof resenas !== "object") {
+    console.log(" No se pueden cargar las reseñas porque resenas o viajeId no están definidos.");
+    return;
   }
 
+  if (resenas[viajeId]) {
+    console.log(" Nuevas reseñas detectadas:", resenas[viajeId]);
+    setResenasViaje(resenas[viajeId]); 
+  }
+}, [resenas, viajeId]);
+
+if (!resenasViaje || resenasViaje.length === 0) {
+  return <p>No hay reseñas para este viaje.</p>;
+}
 
   return (
     <div className="reseñas-container">

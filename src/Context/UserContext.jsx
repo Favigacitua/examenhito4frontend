@@ -29,7 +29,7 @@ export const UserProvider = ({ children }) => {
     }
   }); 
 
-  const [resenasPorViaje, setResenasPorViaje] = useState({});
+
 
   useEffect(() => {
     if (token) {
@@ -372,42 +372,6 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const fetchUserviajes = async () => {
-    if (!token) {
-      console.error(" No hay token disponible para autenticar la solicitud.");
-      return;
-    }
-
-    useEffect(() => {
-      if (token) {
-        fetchUserviajes();  
-      }
-    }, [token]);
-  
-    try {
-      const response = await fetch("https://nautilus-prestiges.onrender.com/api/mis_viajes", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-  
-      const data = await response.json();
-  
-      if (!response.ok) {
-        throw new Error(data.error || "Error al obtener viajes");
-      }
-  
-      console.log(" Viajes del usuario obtenidos:", data.viajes);
-  
-      setUser((prevUser) => ({
-        ...prevUser,
-        viajes: data.viajes || [], 
-      }));
-    } catch (error) {
-      console.error(" Error al obtener viajes del usuario:", error);
-    }
-  };
   
 
   const fetchResenasPorViaje = async (id_viaje) => {
@@ -441,7 +405,7 @@ export const UserProvider = ({ children }) => {
 
 
 
-  
+
   const deleteResena = async (idResena, id_viaje) => {
     if (!token) {
       console.error(" No hay token disponible para autenticar la solicitud.");
@@ -467,11 +431,9 @@ export const UserProvider = ({ children }) => {
       
       setUser((prevUser) => ({
         ...prevUser,
-        resenas: prevUser.resenas ? prevUser.resenas.filter((resena) => resena.id !== idResena) : [],
+        resenas: prevUser.resenas.filter((resena) => resena.id !== idResena),
       }));
-      
-     
-      fetchResenasPorViaje(id_viaje);
+    
       
   
       return { success: true, message: "Reseña eliminada correctamente." };
