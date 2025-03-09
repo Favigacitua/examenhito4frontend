@@ -19,6 +19,10 @@ export const DestinoDetailCard = () => {
     console.log(" Buscando viaje con ID:", id);
     console.log(" Lista de viajes disponibles:", viajes);
 
+    if (viajes.length === 0) {
+      fetchUserviajes(); 
+    }
+
     if (viajes.length > 0) {
       const selectedViaje = viajes.find((v) => v.id === Number(id));
       if (selectedViaje) {
@@ -28,7 +32,7 @@ export const DestinoDetailCard = () => {
         console.log(" No se encontró un viaje con ese ID.");
       }
     }
-  }, [id, viajes]);
+  }, [id, viajes,  fetchUserviajes]);
 
   if (!viaje) {
     return <p>Cargando detalles del crucero...</p>;

@@ -377,6 +377,12 @@ export const UserProvider = ({ children }) => {
       console.error(" No hay token disponible para autenticar la solicitud.");
       return;
     }
+
+    useEffect(() => {
+      if (token) {
+        fetchUserviajes();  
+      }
+    }, [token]);
   
     try {
       const response = await fetch("https://nautilus-prestiges.onrender.com/api/mis_viajes", {
@@ -428,10 +434,12 @@ export const UserProvider = ({ children }) => {
       
       setUser((prevUser) => ({
         ...prevUser,
-        resenas: prevUser.resenas.filter((resena) => resena.id !== idResena),
+        resenas: prevUser.resenas ? prevUser.resenas.filter((resena) => resena.id !== idResena) : [],
       }));
-
+      
+     
       fetchResenasPorViaje(id_viaje);
+      
   
       return { success: true, message: "Reseña eliminada correctamente." };
     } catch (error) {

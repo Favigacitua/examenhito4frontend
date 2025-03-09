@@ -22,7 +22,7 @@ export const CardReseña = ({ viajeId }) => {
     if (!resenasPorViaje[viajeId]) {
       fetchResenasPorViaje(viajeId);  
     }
-  }, [viajeId, fetchResenasPorViaje]);
+  }, [viajeId, resenasPorViaje, fetchResenasPorViaje]);
 
   useEffect(() => {
     if (!viajeId || !resenasPorViaje || typeof resenasPorViaje !== "object") {
