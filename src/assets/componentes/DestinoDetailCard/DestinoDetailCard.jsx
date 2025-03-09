@@ -9,7 +9,7 @@ import "./destinodetailcard.css";
 export const DestinoDetailCard = () => {
   const { viajes} = useContext(MyContext);
   const { id } = useParams();
-  const { addFavoritos, user,  token,fetchUserviajes  } = useContext(UserContext);
+  const { addFavoritos, user,  token } = useContext(UserContext);
   const [viaje, setViaje] = useState(null);
   const [mensajeFavorito, setMensajeFavorito] = useState("");
 
@@ -19,10 +19,7 @@ export const DestinoDetailCard = () => {
     console.log(" Buscando viaje con ID:", id);
     console.log(" Lista de viajes disponibles:", viajes);
 
-    if (viajes.length === 0) {
-      fetchUserviajes(); 
-    }
-
+   
     if (viajes.length > 0) {
       const selectedViaje = viajes.find((v) => v.id === Number(id));
       if (selectedViaje) {
@@ -32,7 +29,7 @@ export const DestinoDetailCard = () => {
         console.log(" No se encontró un viaje con ese ID.");
       }
     }
-  }, [id, viajes,  fetchUserviajes]);
+  }, [id, viajes]);
 
   if (!viaje) {
     return <p>Cargando detalles del crucero...</p>;
