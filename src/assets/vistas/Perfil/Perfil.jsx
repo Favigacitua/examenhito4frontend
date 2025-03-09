@@ -5,6 +5,7 @@ import { Card, ListGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useUserContext } from "../../../Context/UserContext";
 import "./perfil.css";
+import MyContext from "../../../Context/Context";
 
 export const Perfil = () => {
   const {
@@ -17,6 +18,8 @@ export const Perfil = () => {
     deleteResena
   
   } = useUserContext();
+
+  const {fetchResenasPorViaje} = MyContext
 
   const misDestinos = useRef(null);
   const mispublicaciones = useRef(null);
@@ -92,6 +95,7 @@ export const Perfil = () => {
       setCalificacion("");
       setComentario("");
       fetchUserReviews(); 
+      fetchResenasPorViaje(Number(destino));
     } else {
       alert(` Error: ${resultado?.message || "Error desconocido al enviar la reseña."}`);
     }
@@ -105,7 +109,7 @@ export const Perfil = () => {
     if (resultado.success) {
       alert(" Reseña eliminada correctamente.");
       fetchUserReviews(); 
-      
+      fetchResenasPorViaje(id_viaje_asociado)
     } else {
       alert(` Error: ${resultado.message}`);
     }

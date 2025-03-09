@@ -12,32 +12,31 @@ export const CardReseña = ({ viajeId }) => {
     console.log(` CardReseña recibida con viajeId:`, viajeId);
 
     if (!viajeId) { 
-      console.log(" No se recibió un viajeId en CardReseña.");
-      return;
+        console.log(" No se recibió un viajeId en CardReseña.");
+        return;
     }
 
     if (!resenas || typeof resenas !== "object") {
-      console.log(" resenas no está definido o no es un objeto, no se puede acceder.");
-      return;
-    }
-
-    if (!resenas[viajeId]) {
-      fetchResenasPorViaje(viajeId);
+        console.log(" resenas no está definido o no es un objeto, no se puede acceder.");
+        return;
     }
 
 }, [viajeId, fetchResenasPorViaje]);
 
-
 useEffect(() => {
-  if (!viajeId || !resenas || typeof resenas !== "object") {
-    console.log(" No se pueden cargar las reseñas porque resenas o viajeId no están definidos.");
-    return;
-  }
+    if (!viajeId || !resenas || typeof resenas !== "object") {
+        console.log(" No se pueden cargar las reseñas porque resenas o viajeId no están definidos.");
+        return;
+    }
 
-  if (resenas[viajeId]) {
-    console.log(" Nuevas reseñas detectadas:", resenas[viajeId]);
-    setResenasViaje(resenas[viajeId]); 
-  }
+    if (!resenas[viajeId]) {  
+        fetchResenasPorViaje(viajeId); 
+    }
+
+    if (resenas[viajeId]) {
+        console.log(" Nuevas reseñas detectadas:", resenas[viajeId]);
+        setResenasViaje(resenas[viajeId]); 
+    }
 }, [resenas, viajeId]);
 
 if (!resenasViaje || resenasViaje.length === 0) {
