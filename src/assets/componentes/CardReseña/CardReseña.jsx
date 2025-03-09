@@ -5,46 +5,40 @@ import './cardreseña.css'
 
 export const CardReseña = ({ viajeId }) => {
   console.log(`🛠️ CardReseña recibida con viajeId:`, viajeId);
-  const { resenas, fetchResenasPorViaje } = useContext(MyContext);
+
+ 
+  const { resenasPorViaje, fetchResenasPorViaje } = useContext(MyContext);
+
   const [resenasViaje, setResenasViaje] = useState([]);
 
   useEffect(() => {
-    console.log(` CardReseña recibida con viajeId:`, viajeId);
+    console.log(` Buscando reseñas para el viaje ID:`, viajeId);
 
     if (!viajeId) { 
       console.log(" No se recibió un viajeId en CardReseña.");
       return;
     }
 
-    if (!resenas || typeof resenas !== "object") {
-      console.log(" resenas no está definido o no es un objeto, no se puede acceder.");
+    if (!resenasPorViaje[viajeId]) {
+      fetchResenasPorViaje(viajeId);  
+    }
+  }, [viajeId, fetchResenasPorViaje]);
+
+  useEffect(() => {
+    if (!viajeId || !resenasPorViaje || typeof resenasPorViaje !== "object") {
+      console.log(" No se pueden cargar las reseñas porque `resenasPorViaje` o `viajeId` no están definidos.");
       return;
     }
 
-    if (!resenas[viajeId]) {
-      fetchResenasPorViaje(viajeId);
+    if (resenasPorViaje[viajeId]) {
+      console.log(" Nuevas reseñas detectadas:", resenasPorViaje[viajeId]);
+      setResenasViaje(resenasPorViaje[viajeId]);
     }
+  }, [resenasPorViaje, viajeId]);
 
-}, [viajeId, fetchResenasPorViaje]);
-
-
-
-useEffect(() => {
-  if (!viajeId || !resenas || typeof resenas !== "object") {
-    console.log(" No se pueden cargar las reseñas porque resenas o viajeId no están definidos.");
-    return;
+  if (!resenasViaje || resenasViaje.length === 0) {
+    return <p>No hay reseñas para este viaje.</p>;
   }
-
-  if (resenas[viajeId]) {
-    console.log(" Nuevas reseñas detectadas:", resenas[viajeId]);
-    setResenasViaje(resenas[viajeId]); 
-  }
-}, [resenas, viajeId]);
-
-if (!resenasViaje || resenasViaje.length === 0) {
-  return <p>No hay reseñas para este viaje.</p>;
-}
-
 
 
   return (

@@ -27,7 +27,9 @@ export const UserProvider = ({ children }) => {
       console.error('Error parsing user:', error);
       return {favoritos: []}; 
     }
-  });
+  }); 
+
+  const [resenasPorViaje, setResenasPorViaje] = useState({});
 
   useEffect(() => {
     if (token) {
@@ -212,8 +214,11 @@ export const UserProvider = ({ children }) => {
         console.error(" Error en la petición:", result);
         return { success: false, message: result.message || "Error al enviar la reseña." };
       }
+
+      fetchUserReviews(); 
+      fetchResenasPorViaje(id_viaje); 
   
-      console.log(" Reseña enviada con éxito:", result.resena);
+     
       return { success: true, message: "Reseña agregada con éxito." };
   
     } catch (error) {
@@ -425,6 +430,8 @@ export const UserProvider = ({ children }) => {
         ...prevUser,
         resenas: prevUser.resenas.filter((resena) => resena.id !== idResena),
       }));
+
+      fetchResenasPorViaje(id_viaje);
   
       return { success: true, message: "Reseña eliminada correctamente." };
     } catch (error) {
@@ -432,6 +439,38 @@ export const UserProvider = ({ children }) => {
       return { success: false, message: "Error al eliminar la reseña." };
     }
   };
+
+  const fetchResenasPorViaje = async (id_viaje) => {
+    try {
+      const response = await fetch(`https://nautilus-prestiges.onrender.com/api/resenas/${id_viaje}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.error || "Error al obtener reseñas del viaje");
+      }
+  
+      console.log(` Reseñas obtenidas para el viaje ${id_viaje}:`, data.resenas);
+  
+      setResenasPorViaje((prevResenas) => ({
+        ...prevResenas,
+        [id_viaje]: data.resenas || [],
+      }));
+  
+      return data.resenas || [];
+    } catch (error) {
+      console.error(` Error al obtener reseñas del viaje ${id_viaje}:`, error);
+      return [];
+    }
+  };
+
+
+
 
 
 
@@ -452,7 +491,9 @@ export const UserProvider = ({ children }) => {
     fetchUserFavoritos,     
     addFavoritos,         
     removeFavoritos, 
-    deleteResena   
+    deleteResena ,
+    fetchResenasPorViaje,
+    resenasPorViaje   
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
