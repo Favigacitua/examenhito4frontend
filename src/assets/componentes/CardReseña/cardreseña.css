@@ -12,6 +12,14 @@
   width: 100%;
 }
 
+.reseñas .card-text {
+  white-space: normal;      
+  overflow: hidden;         
+  text-overflow: ellipsis;  
+  word-wrap: break-word;   
+      
+}
+
 
 @media (max-width: 700px) {
   .reseñas-container {

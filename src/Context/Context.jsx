@@ -5,7 +5,7 @@ export const MyContext = createContext({});
 
 export const Context = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  const [viajes, setViajes] = useState([]);
+  const [viajes, setViajes] = useState(JSON.parse(localStorage.getItem('viajes')) || []);
   const [filtroDestino, setFiltroDestino] = useState('');
   const [filtroFecha, setFiltroFecha] = useState(null);
   const [mensajeEnviado, setMensajeEnviado] = useState(null);
@@ -18,7 +18,7 @@ export const Context = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
+        
         const response = await fetch("https://nautilus-prestiges.onrender.com/api/viajes"); 
         const data = await response.json();
         console.log(" Viajes cargados desde backend:", data);
@@ -36,8 +36,7 @@ export const Context = ({ children }) => {
         }
       } catch (error) {
         console.error("Error al obtener los viajes:", error);
-      } finally {
-        setLoading(false);
+      
       }
     };
 

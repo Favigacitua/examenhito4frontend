@@ -53,7 +53,7 @@ if (!resenasViaje || resenasViaje.length === 0) {
                     <Card.Subtitle className="mb-2 text-muted" style={{ fontWeight: "bold" }}>
                         @{resena.nombre} {resena.apellido}  
                     </Card.Subtitle>
-                    <Card.Text>{resena.descripcion}</Card.Text>  
+                    <Card.Text className="card-text">{resena.descripcion}</Card.Text>  
                 </Card.Body>
             </Card>
         ))
