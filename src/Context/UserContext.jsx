@@ -31,6 +31,7 @@ export const UserProvider = ({ children }) => {
 
 
 
+
   useEffect(() => {
     if (token) {
       localStorage.setItem('token', JSON.stringify(token));
@@ -215,9 +216,7 @@ export const UserProvider = ({ children }) => {
         return { success: false, message: result.message || "Error al enviar la reseña." };
       }
 
-      fetchUserReviews(); 
-      fetchResenasPorViaje(id_viaje); 
-  
+     
      
       return { success: true, message: "Reseña agregada con éxito." };
   
@@ -328,7 +327,7 @@ export const UserProvider = ({ children }) => {
             return;
         }
 
-        console.log("🗑 Favorito eliminado con éxito:", id_viaje);
+        console.log(" Favorito eliminado con éxito:", id_viaje);
 
         setUser((prevUser) => ({
           ...prevUser,
@@ -372,37 +371,36 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  
+  const fetchUserviajes = async () => {
+    if (!token) {
+      console.error(" No hay token disponible para autenticar la solicitud.");
+      return;
+    }
 
-  const fetchResenasPorViaje = async (id_viaje) => {
     try {
-      const response = await fetch(`https://nautilus-prestiges.onrender.com/api/resenas/${id_viaje}`, {
-        method: 'GET',
+      const response = await fetch("https://nautilus-prestiges.onrender.com/api/mis_viajes", {
+        method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       const data = await response.json();
-  
+
       if (!response.ok) {
-        throw new Error(data.error || "Error al obtener reseñas del viaje");
+        throw new Error(data.error || "Error al obtener viajes");
       }
-  
-      console.log(` Reseñas obtenidas para el viaje ${id_viaje}:`, data.resenas);
-  
-      setResenasPorViaje((prevResenas) => ({
-        ...prevResenas,
-        [id_viaje]: data.resenas || [],
+
+      console.log(" Viajes del usuario obtenidos:", data.viajes);
+
+      setUser((prevUser) => ({
+        ...prevUser,
+        viajes: data.viajes || [], 
       }));
-  
-      return data.resenas || [];
     } catch (error) {
-      console.error(` Error al obtener reseñas del viaje ${id_viaje}:`, error);
-      return [];
+      console.error(" Error al obtener viajes del usuario:", error);
     }
   };
-
 
 
 
@@ -465,9 +463,10 @@ export const UserProvider = ({ children }) => {
     fetchUserFavoritos,     
     addFavoritos,         
     removeFavoritos, 
-    deleteResena ,
-    fetchResenasPorViaje,
-    resenasPorViaje   
+    deleteResena
+ 
+
+    
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

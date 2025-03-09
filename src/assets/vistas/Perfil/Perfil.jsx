@@ -14,8 +14,8 @@ export const Perfil = () => {
     fetchUserReviews,
     fetchUserviajes,
     postReview,
-    deleteResena,
-    fetchResenasPorViaje
+    deleteResena
+  
   } = useUserContext();
 
   const misDestinos = useRef(null);
@@ -97,15 +97,15 @@ export const Perfil = () => {
     }
   };
 
-  const handleDeleteResena = async (id, id_viaje) => {
+  const handleDeleteResena = async (id) => {
     const confirmacion = window.confirm("¿Estás seguro de que quieres eliminar esta reseña?");
     if (!confirmacion) return;
 
-    const resultado = await deleteResena(id, id_viaje);
+    const resultado = await deleteResena(id);
     if (resultado.success) {
       alert(" Reseña eliminada correctamente.");
       fetchUserReviews(); 
-      fetchResenasPorViaje(id_viaje);
+      
     } else {
       alert(` Error: ${resultado.message}`);
     }
@@ -238,7 +238,7 @@ export const Perfil = () => {
                     
                     <Button
                   variant="danger"
-                  onClick={() => handleDeleteResena(resena.id, viajeId)}
+                  onClick={() => handleDeleteResena(resena.id)}
                 >
                   Eliminar Reseña
                 </Button>
