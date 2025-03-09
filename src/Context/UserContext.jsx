@@ -409,7 +409,40 @@ export const UserProvider = ({ children }) => {
     }
   };
   
-  const deleteResena = async (idResena) => {
+
+  const fetchResenasPorViaje = async (id_viaje) => {
+    try {
+      const response = await fetch(`https://nautilus-prestiges.onrender.com/api/resenas/${id_viaje}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.error || "Error al obtener reseñas del viaje");
+      }
+  
+      console.log(` Reseñas obtenidas para el viaje ${id_viaje}:`, data.resenas);
+  
+      setResenasPorViaje((prevResenas) => ({
+        ...prevResenas,
+        [id_viaje]: data.resenas || [],
+      }));
+  
+      return data.resenas || [];
+    } catch (error) {
+      console.error(` Error al obtener reseñas del viaje ${id_viaje}:`, error);
+      return [];
+    }
+  };
+
+
+
+  
+  const deleteResena = async (idResena, id_viaje) => {
     if (!token) {
       console.error(" No hay token disponible para autenticar la solicitud.");
       return { success: false, message: "No estás autenticado." };
@@ -445,35 +478,6 @@ export const UserProvider = ({ children }) => {
     } catch (error) {
       console.error(" Error al eliminar reseña:", error.message);
       return { success: false, message: "Error al eliminar la reseña." };
-    }
-  };
-
-  const fetchResenasPorViaje = async (id_viaje) => {
-    try {
-      const response = await fetch(`https://nautilus-prestiges.onrender.com/api/resenas/${id_viaje}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-  
-      const data = await response.json();
-  
-      if (!response.ok) {
-        throw new Error(data.error || "Error al obtener reseñas del viaje");
-      }
-  
-      console.log(` Reseñas obtenidas para el viaje ${id_viaje}:`, data.resenas);
-  
-      setResenasPorViaje((prevResenas) => ({
-        ...prevResenas,
-        [id_viaje]: data.resenas || [],
-      }));
-  
-      return data.resenas || [];
-    } catch (error) {
-      console.error(` Error al obtener reseñas del viaje ${id_viaje}:`, error);
-      return [];
     }
   };
 
