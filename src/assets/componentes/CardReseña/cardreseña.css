@@ -12,23 +12,6 @@
   width: 100%;
 }
 
-.reseñas .card-body {
-  display: flex;
-  flex-direction: column;
-  max-height: 200px;       
-  overflow: hidden;         
-}
-
-
-.reseñas .card-text {
-  display: -webkit-box;       
-  -webkit-box-orient: vertical;
-  overflow: hidden;        
-  text-overflow: ellipsis;  
-  white-space: normal;      
-  word-wrap: break-word;   
-  max-height: 100px;         
-}
 
 @media (max-width: 700px) {
   .reseñas-container {

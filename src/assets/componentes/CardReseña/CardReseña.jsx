@@ -8,6 +8,25 @@ export const CardReseña = ({ viajeId }) => {
   const { resenas, fetchResenasPorViaje } = useContext(MyContext);
   const [resenasViaje, setResenasViaje] = useState([]);
 
+
+  const cardBodyStyle = {
+    display: "flex",
+    flexDirection: "column",
+    maxHeight: "200px",       
+    overflow: "hidden"        
+};
+
+const cardTextStyle = {
+    display: "-webkit-box",    
+    WebkitLineClamp: 4,        
+    WebkitBoxOrient: "vertical", 
+    overflow: "hidden",        
+    textOverflow: "ellipsis",   
+    whiteSpace: "normal",       
+    wordWrap: "break-word",     
+    maxHeight: "100px"          
+};
+
   useEffect(() => {
     console.log(` CardReseña recibida con viajeId:`, viajeId);
 
@@ -48,12 +67,12 @@ if (!resenasViaje || resenasViaje.length === 0) {
       {resenasViaje.length > 0 ? (
         resenasViaje.map((resena, index) => (  
             <Card className="reseñas" key={index}>
-                <Card.Body>
+                <Card.Body style={cardBodyStyle}>
                     <Card.Title>({resena.valoracion} estrellas)</Card.Title> 
                     <Card.Subtitle className="mb-2 text-muted" style={{ fontWeight: "bold" }}>
                         @{resena.nombre} {resena.apellido}  
                     </Card.Subtitle>
-                    <Card.Text className="card-text">{resena.descripcion}</Card.Text>  
+                    <Card.Text  style={cardTextStyle}>{resena.descripcion}</Card.Text>  
                 </Card.Body>
             </Card>
         ))
