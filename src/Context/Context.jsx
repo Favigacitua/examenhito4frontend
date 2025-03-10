@@ -154,7 +154,7 @@ export const Context = ({ children }) => {
     }
   };
 
-  const fetchResenasPorViaje = async (viajeId) => {
+  const fetchResenasPorViaje = async (viajeId, forceUpdate = false) => {
     console.log(`📍 Valor de viajeId recibido en fetchResenasPorViaje:`, viajeId);
 
     
@@ -163,7 +163,7 @@ export const Context = ({ children }) => {
       console.log("❌ No se recibió un viajeId en CardReseña.");
       return;
   }
-    if (resenas[viajeId]) return; 
+    if (resenas[viajeId] && !forceUpdate ) return; 
 
    
 

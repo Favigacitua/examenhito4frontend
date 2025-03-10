@@ -95,7 +95,7 @@ export const Perfil = () => {
       setCalificacion("");
       setComentario("");
       fetchUserReviews(); 
-      fetchResenasPorViaje(Number(destino));
+      fetchResenasPorViaje(Number(destino, true));
     } else {
       alert(` Error: ${resultado?.message || "Error desconocido al enviar la reseña."}`);
     }
@@ -109,7 +109,7 @@ export const Perfil = () => {
     if (resultado.success) {
       alert(" Reseña eliminada correctamente.");
       fetchUserReviews(); 
-      fetchResenasPorViaje(id_viaje_asociado)
+      fetchResenasPorViaje(id_viaje_asociado, true)
     } else {
       alert(` Error: ${resultado.message}`);
     }
@@ -238,7 +238,9 @@ export const Perfil = () => {
                     <Card.Subtitle className="mb-2 text-muted">
                       {resena.nombre_viaje}
                     </Card.Subtitle>
-                    <Card.Text>{resena.descripcion}</Card.Text>
+                    <Card.Text> {resena.descripcion?.length > 200 
+    ? `${resena.descripcion.slice(0, 200)}...` 
+    : resena.descripcion}</Card.Text>
                     
                     <Button
                   variant="danger"

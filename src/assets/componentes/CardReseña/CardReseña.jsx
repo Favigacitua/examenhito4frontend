@@ -32,9 +32,7 @@ useEffect(() => {
         return;
     }
 
-    if (!resenas[viajeId]) {  
-        fetchResenasPorViaje(viajeId); 
-    }
+    fetchResenasPorViaje(viajeId, true); 
 
     if (resenas[viajeId]) {
         console.log(" Nuevas reseñas detectadas:", resenas[viajeId]);
